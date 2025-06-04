@@ -33,9 +33,16 @@ const Login = () => {
               Keep me signed in
             </span>
           </div>
-          <button className="bg-secondary text-white p-3 rounded-lg hover:opacity-90">
+          <button className="bg-secondary text-white p-3 hover:opacity-90">
             Sign In
           </button>
+          <div className="flex items-center my-4">
+            <div className="flex-grow h-px bg-gray-300"></div>
+            <span className="px-3 text-sm font-semibold text-gray-700">
+              Or Sign In With
+            </span>
+            <div className="flex-grow h-px bg-gray-300"></div>
+          </div>
         </div>
       </div>
     </div>
