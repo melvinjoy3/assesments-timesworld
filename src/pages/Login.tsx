@@ -1,5 +1,6 @@
 import Header from "../components/header/Header";
 import config from "../config/config.json";
+import SocialIcons from "../components/SocialIcons";
 
 const Login = () => {
   return (
@@ -43,6 +44,7 @@ const Login = () => {
             </span>
             <div className="flex-grow h-px bg-gray-300"></div>
           </div>
+          <SocialIcons />
         </div>
       </div>
     </div>

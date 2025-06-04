@@ -1,17 +1,6 @@
-import { FaGoogle, FaFacebookF, FaLinkedinIn, FaTwitter } from "react-icons/fa";
+import { icons } from "../config/Constant";
 
 const SocialIcons = () => {
-  const icons: any = [
-    { Icon: FaGoogle, label: "Google" },
-    { Icon: FaFacebookF, label: "Facebook" },
-    { Icon: FaLinkedinIn, label: "LinkedIn" },
-    { Icon: FaTwitter, label: "Twitter" },
-    { Icon: FaGoogle, label: "Google" },
-    { Icon: FaFacebookF, label: "Facebook" },
-    { Icon: FaLinkedinIn, label: "LinkedIn" },
-    { Icon: FaTwitter, label: "Twitter" },
-  ];
-
   return (
     <div className="flex justify-center gap-6 mt-4">
       {icons?.map((item: any, index: any) => (
