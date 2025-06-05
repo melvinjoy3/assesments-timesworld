@@ -1,61 +1,77 @@
 import config from "../config/config.json";
 import SocialIcons from "../components/SocialIcons";
 import WalkingIcon from "../assets/images/walking.png";
+import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
+import "../assets/css/style.css";
 
 const Login = () => {
   return (
-    <div className="bg-primary">
-      <div className="text-secondary flex flex-col md:flex-row items-center justify-center min-h-[calc(100vh-80px)] gap-10 p-8">
-        {/* Left - Login Form */}
-        <div className="flex flex-col gap-4 w-full max-w-md">
-          <span className="font-bold text-[32px]">{config?.text[0]}</span>
-          <span className="text-center font-bold text-xs">
-            New user?{" "}
-            <span className="text-textColor font-semibold text-xs">
-              Create an account
-            </span>
-          </span>
-          <input
-            type="text"
-            placeholder="Username or email"
-            className="p-2 border border-secondary focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary"
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            className="p-2 border border-secondary focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary"
-          />
-          <div className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              className="w-8 h-8 border border-secondary"
-            />
-            <span className="text-secondary font-semibold text-xs">
-              Keep me signed in
-            </span>
-          </div>
-          <button className="bg-secondary text-white p-3 hover:opacity-90">
-            Sign In
-          </button>
-          <div className="flex items-center my-4">
-            <div className="flex-grow h-px bg-gray-300"></div>
-            <span className="px-3 text-sm font-semibold text-gray-700">
-              Or Sign In With
-            </span>
-            <div className="flex-grow h-px bg-gray-300"></div>
-          </div>
-          <SocialIcons />
-        </div>
+    <div className="login-container">
+      <Container
+        fluid
+        className="min-vh-100 d-flex align-items-center justify-content-center py-5"
+      >
+        <Row className="w-100 justify-content-center align-items-center g-4">
+          {/* Left - Login Form */}
+          <Col xs={12} md={6} lg={5} className="d-flex justify-content-center">
+            <Card className="w-100" style={{ maxWidth: "400px" }}>
+              <Card.Body className="p-4">
+                <h1 className="fw-bold mb-4">{config?.text[0]}</h1>
+                <p>
+                  New user?{" "}
+                  <a href="#" className="text-decoration-none fw-semibold">
+                    Create an account
+                  </a>
+                </p>
+                <Form>
+                  <Form.Group className="mb-3">
+                    <Form.Control
+                      type="text"
+                      placeholder="Username or email"
+                      className="border-secondary"
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3">
+                    <Form.Control
+                      type="password"
+                      placeholder="Password"
+                      className="border-secondary"
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3">
+                    <Form.Check
+                      type="checkbox"
+                      label="Keep me signed in"
+                      className="fw-semibold"
+                    />
+                  </Form.Group>
+                  <Button variant="secondary" className="w-100 py-2 mb-4">
+                    Sign In
+                  </Button>
+                  <div className="d-flex align-items-center mb-4">
+                    <hr className="flex-grow-1" />
+                    <span className="px-3 text-muted fw-semibold">
+                      Or Sign In With
+                    </span>
+                    <hr className="flex-grow-1" />
+                  </div>
+                  <SocialIcons />
+                </Form>
+              </Card.Body>
+            </Card>
+          </Col>
 
-        {/* Right - Image */}
-        <div className="hidden md:block">
-          <img
-            src={WalkingIcon}
-            alt="Login Illustration"
-            className="max-w-md h-auto"
-          />
-        </div>
-      </div>
+          {/* Right - Image */}
+          <Col md={6} lg={5} className="d-none d-md-block">
+            <img
+              src={WalkingIcon}
+              alt="Login Illustration"
+              className="img-fluid"
+              style={{ maxWidth: "400px" }}
+            />
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 };
