@@ -2,25 +2,74 @@ import React, { useState } from "react";
 import { Carousel } from "react-bootstrap";
 import { ArrowLeft, ArrowRight } from "react-bootstrap-icons";
 import { useAppSelector } from "../../store/hooks";
-import "../../assets/css/style.css";
+import "./slider.css";
+import { tabs } from "../../config/Constant";
 
 const ImageSlider = () => {
   const { items } = useAppSelector((state) => state.countries);
+  const activeTab = useAppSelector((state) => state.ui.activeTab);
   const [index, setIndex] = useState(0);
+
+  // Filter countries based on active tab
+  const filteredCountries = items.filter(
+    (country) =>
+      activeTab === tabs[0] ||
+      country.region.toLowerCase() === activeTab.toLowerCase()
+  );
 
   const handleSelect = (selectedIndex: number) => {
     setIndex(selectedIndex);
   };
 
+  // Calculate which dot should be active based on current index
+  const getActiveDot = () => {
+    const totalItems = filteredCountries.length;
+    const dotsToShow = Math.min(4, totalItems);
+    const itemsPerDot = totalItems / dotsToShow;
+    return Math.min(Math.floor(index / itemsPerDot), dotsToShow - 1);
+  };
+
+  // Handle dot click
+  const handleDotClick = (dotIndex: number) => {
+    const totalItems = filteredCountries.length;
+    const dotsToShow = Math.min(4, totalItems);
+    const itemsPerDot = totalItems / dotsToShow;
+    const newIndex = Math.min(
+      Math.floor(dotIndex * itemsPerDot),
+      totalItems - 1
+    );
+    setIndex(newIndex);
+  };
+
+  // Handle previous button click
   const goToPrev = () => {
-    setIndex(index === 0 ? items.length - 1 : index - 1);
+    const totalItems = filteredCountries.length;
+    if (index === 0) {
+      setIndex(totalItems - 1);
+    } else {
+      setIndex(index - 1);
+    }
   };
 
+  // Handle next button click
   const goToNext = () => {
-    setIndex(index === items.length - 1 ? 0 : index + 1);
+    const totalItems = filteredCountries.length;
+    if (index === totalItems - 1) {
+      setIndex(0);
+    } else {
+      setIndex(index + 1);
+    }
   };
 
-  if (!items.length) return null;
+  // Reset index when filter changes
+  React.useEffect(() => {
+    setIndex(0);
+  }, [activeTab]);
+
+  if (!filteredCountries.length) return null;
+
+  // Calculate total number of dots needed
+  const totalDots = Math.min(4, filteredCountries.length);
 
   return (
     <div className="position-relative w-100 px-3 mb-4">
@@ -31,25 +80,16 @@ const ImageSlider = () => {
         indicators={false}
         interval={null}
       >
-        {items.map((country, idx) => (
+        {filteredCountries.map((country, idx) => (
           <Carousel.Item key={idx}>
-            <div
-              className="d-flex justify-content-center align-items-center"
-              style={{ height: "300px", backgroundColor: "#f4f4f4" }}
-            >
+            <div className="d-flex justify-content-center align-items-center slider-carousel">
               <div className="text-center">
                 <img
                   src={country.flag}
                   alt={country.name}
-                  style={{
-                    maxWidth: "100%",
-                    maxHeight: "200px",
-                    objectFit: "contain",
-                    marginBottom: "1rem",
-                  }}
+                  className="slider-image"
                 />
                 <h3 className="h5 fw-bold">{country.name}</h3>
-                <p className="text-muted">{country.region}</p>
               </div>
             </div>
           </Carousel.Item>
@@ -57,39 +97,19 @@ const ImageSlider = () => {
       </Carousel>
 
       {/* Navigation Controls */}
-      <div
-        className="d-flex justify-content-center align-items-center"
-        style={{
-          position: "absolute",
-          bottom: "10px",
-          left: "50%",
-          transform: "translateX(-50%)",
-          gap: "12px",
-          background: "rgba(255,255,255,0.7)",
-          padding: "6px 12px",
-          borderRadius: "20px",
-        }}
-      >
-        <ArrowLeft onClick={goToPrev} style={{ cursor: "pointer" }} size={20} />
-        {items.map((_, idx) => (
+      <div className="d-flex justify-content-center align-items-center mt-3 slider-navigation">
+        <ArrowLeft onClick={goToPrev} className="sider-pointer" size={20} />
+        {Array.from({ length: totalDots }, (_, dotIndex) => (
           <span
-            key={idx}
-            onClick={() => setIndex(idx)}
+            key={dotIndex}
+            onClick={() => handleDotClick(dotIndex)}
+            className="slider-span"
             style={{
-              width: 8,
-              height: 8,
-              borderRadius: "50%",
-              backgroundColor: idx === index ? "#000" : "#ccc",
-              display: "inline-block",
-              cursor: "pointer",
+              backgroundColor: dotIndex === getActiveDot() ? "#000" : "#ccc",
             }}
           ></span>
         ))}
-        <ArrowRight
-          onClick={goToNext}
-          style={{ cursor: "pointer" }}
-          size={20}
-        />
+        <ArrowRight onClick={goToNext} className="sider-pointer" size={20} />
       </div>
     </div>
   );

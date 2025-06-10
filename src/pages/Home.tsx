@@ -1,11 +1,13 @@
 import React, { useEffect, useRef } from "react";
 import Header from "../components/header/Header";
 import { FixedSizeGrid as Grid } from "react-window";
-import { Container, Row, Col, Button, Spinner } from "react-bootstrap";
+import { Container, Row, Col, Spinner } from "react-bootstrap";
 import "../assets/css/style.css";
 import ImageSlider from "../components/slider/Slider";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { fetchCountries, loadMore } from "../store/countriesSlice";
+import Button from "../components/button/Button";
+import Footer from "../components/footer/Footer";
 
 const ITEMS_PER_PAGE = 12;
 const ROW_HEIGHT = 100;
@@ -75,8 +77,6 @@ const Home = () => {
     }, 100);
   };
 
-  console.log("activeTab->", activeTab);
-
   const Cell = ({ columnIndex, rowIndex, style }: any) => {
     const index = rowIndex * columnCount + columnIndex;
     if (index >= filteredItems.length) return null;
@@ -88,8 +88,7 @@ const Home = () => {
           <img
             src={item.flag}
             alt={item.name}
-            className="me-3 border border-secondary"
-            style={{ width: "64px", height: "40px", objectFit: "cover" }}
+            className="me-3 border border-secondary home-image"
           />
           <div>
             <h2 className="h5 fw-semibold mb-1">{item.name}</h2>
@@ -103,15 +102,14 @@ const Home = () => {
   return (
     <div className="min-vh-100 bg-light">
       <Header />
-
       <Container className="py-4">
         {/* Welcome Banner */}
-        <Row className="justify-content-center mb-4">
-          <Col xs={12} className="text-center">
+        <Row className="mb-4">
+          <Col xs={12} className="text-center d-flex justify-content-center">
             <div className="d-flex align-items-center justify-content-center">
-              <hr className="flex-grow-1 mx-4" style={{ maxWidth: "300px" }} />
+              <hr className="flex-grow-1 mx-4" />
               <h1 className="h2 fw-bold text-dark mb-0">WELCOME</h1>
-              <hr className="flex-grow-1 mx-4" style={{ maxWidth: "300px" }} />
+              <hr className="flex-grow-1 mx-4" />
             </div>
           </Col>
         </Row>
@@ -128,7 +126,7 @@ const Home = () => {
         {/* Virtualized Grid */}
         <Row>
           <Col xs={12} ref={containerRef}>
-            <div className="p-3">
+            <div className="p-3 d-flex justify-content-center">
               <Grid
                 columnCount={columnCount}
                 columnWidth={columnWidth}
@@ -147,12 +145,7 @@ const Home = () => {
         {displayedItems.length < items.length && (
           <Row className="mt-4">
             <Col className="text-center">
-              <Button
-                variant="primary"
-                onClick={handleLoadMore}
-                disabled={loading}
-                className="px-4 py-2"
-              >
+              <Button handleLoadMore={handleLoadMore} disabled={loading}>
                 {loading ? (
                   <>
                     <Spinner
@@ -173,6 +166,7 @@ const Home = () => {
           </Row>
         )}
       </Container>
+      <Footer />
     </div>
   );
 };
