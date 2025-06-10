@@ -3,8 +3,15 @@ import SocialIcons from "../components/SocialIcons";
 import WalkingIcon from "../assets/images/walking.png";
 import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
 import "../assets/css/style.css";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    navigate("/home");
+  };
   return (
     <div className="login-container">
       <Container
@@ -23,7 +30,7 @@ const Login = () => {
                     Create an account
                   </a>
                 </p>
-                <Form>
+                <Form onSubmit={handleSubmit}>
                   <Form.Group className="mb-3">
                     <Form.Control
                       type="text"
@@ -45,7 +52,11 @@ const Login = () => {
                       className="fw-semibold"
                     />
                   </Form.Group>
-                  <Button variant="secondary" className="w-100 py-2 mb-4">
+                  <Button
+                    variant="secondary"
+                    className="w-100 py-2 mb-4"
+                    type="submit"
+                  >
                     Sign In
                   </Button>
                   <div className="d-flex align-items-center mb-4">
