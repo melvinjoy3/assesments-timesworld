@@ -5,6 +5,22 @@
 .login-container {
   background-color: var(--white-color);
   min-height: 100vh;
+
+  .form-check-input {
+    width: 32px;
+    height: 32px;
+  }
+
+  .form-check-input:focus {
+    border: 2px solid var(--dark-color) !important;
+    box-shadow: none;
+  }
+
+  .form-check-input:checked {
+    border: 2px solid var(--dark-color) !important;
+    background-color: var(--dark-color) !important;
+    box-shadow: none;
+  }
 }
 
 .login-container .form-control,
@@ -63,5 +79,5 @@
 .country-card {
   border: 1px solid;
   padding: 10px;
-  box-shadow: 5px 10px #888888;
+  box-shadow: 5px 6px var(--shdow-color);
 }
