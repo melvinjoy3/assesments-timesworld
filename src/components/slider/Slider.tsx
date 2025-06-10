@@ -72,7 +72,7 @@ const ImageSlider = () => {
   const totalDots = Math.min(4, filteredCountries.length);
 
   return (
-    <div className="position-relative w-100 px-3 mb-4">
+    <div className="position-relative w-10 px-5 mb-4">
       <Carousel
         activeIndex={index}
         onSelect={handleSelect}

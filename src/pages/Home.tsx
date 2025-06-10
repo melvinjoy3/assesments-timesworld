@@ -106,23 +106,20 @@ const Home = () => {
         {/* Welcome Banner */}
         <Row className="mb-4">
           <Col xs={12} className="text-center d-flex justify-content-center">
-            <div className="d-flex align-items-center justify-content-center">
-              <hr className="flex-grow-1 mx-4" />
+            <div className="d-flex align-items-center justify-content-center w-100">
+              <hr className="flex-grow-1 mx-2 mx-md-4 border-dark d-none d-md-block" />
               <h1 className="h2 fw-bold text-dark mb-0">WELCOME</h1>
-              <hr className="flex-grow-1 mx-4" />
+              <hr className="flex-grow-1 mx-2 mx-md-4 border-dark d-none d-md-block" />
             </div>
           </Col>
         </Row>
-
         <ImageSlider />
-
         {/* Error Message */}
         {error && (
           <Row className="mb-4">
             <Col className="text-center text-danger">{error}</Col>
           </Row>
         )}
-
         {/* Virtualized Grid */}
         <Row>
           <Col xs={12} ref={containerRef}>

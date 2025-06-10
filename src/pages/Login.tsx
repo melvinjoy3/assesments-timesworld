@@ -77,8 +77,8 @@ const Login = () => {
         <Row className="w-100 justify-content-center align-items-center g-4">
           {/* Left - Login Form */}
           <Col xs={12} md={6} lg={5} className="d-flex justify-content-center">
-            <Card className="w-100">
-              <Card.Body className="p-4">
+            <Card className="w-90 border-0">
+              <Card.Body className="p-5">
                 <h1 className="fw-bold mb-4">{config?.text[0]}</h1>
                 <p>New user? Create an account</p>
                 <Form onSubmit={handleSubmit}>
@@ -120,7 +120,7 @@ const Login = () => {
                     />
                   </Form.Group>
                   <Button styles={"w-100"}>{"Sign In"}</Button>
-                  <div className="d-flex align-items-center mb-4">
+                  <div className="d-flex align-items-center my-4">
                     <hr className="flex-grow-1" />
                     <span className="px-3 text-muted fw-semibold">
                       Or Sign In With
