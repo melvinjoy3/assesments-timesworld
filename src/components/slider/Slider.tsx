@@ -3,6 +3,7 @@ import { Carousel } from "react-bootstrap";
 import { ArrowLeft, ArrowRight } from "react-bootstrap-icons";
 import { useAppSelector } from "../../store/hooks";
 import "./slider.css";
+import { tabs } from "../../config/Constant";
 
 const ImageSlider = () => {
   const { items } = useAppSelector((state) => state.countries);
@@ -12,7 +13,7 @@ const ImageSlider = () => {
   // Filter countries based on active tab
   const filteredCountries = items.filter(
     (country) =>
-      activeTab === "All" ||
+      activeTab === tabs[0] ||
       country.region.toLowerCase() === activeTab.toLowerCase()
   );
 

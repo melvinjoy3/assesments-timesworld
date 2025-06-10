@@ -6,3 +6,5 @@ export const icons: any = [
   { Icon: FaLinkedinIn, label: "LinkedIn" },
   { Icon: FaTwitter, label: "Twitter" },
 ];
+
+export const tabs = ["All", "Asia", "Europe"];

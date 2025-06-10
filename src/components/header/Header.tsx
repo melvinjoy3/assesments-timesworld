@@ -1,14 +1,13 @@
 import React, { useState } from "react";
-import { Container, Nav, Row, Col, Navbar, Offcanvas } from "react-bootstrap";
+import { Container, Nav, Row, Col, Offcanvas } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setActiveTab } from "../../store/uiSlice";
+import { tabs } from "../../config/Constant";
 
 const CountryTabs = () => {
   const dispatch = useAppDispatch();
   const activeTab = useAppSelector((state) => state.ui.activeTab);
   const [showOffcanvas, setShowOffcanvas] = useState(false);
-
-  const tabs = ["All", "Asia", "Europe"];
 
   const handleSelect = (selectedKey: string | null) => {
     if (selectedKey) {

@@ -7,6 +7,7 @@ import ImageSlider from "../components/slider/Slider";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { fetchCountries, loadMore } from "../store/countriesSlice";
 import Button from "../components/button/Button";
+import Footer from "../components/footer/Footer";
 
 const ITEMS_PER_PAGE = 12;
 const ROW_HEIGHT = 100;
@@ -101,7 +102,6 @@ const Home = () => {
   return (
     <div className="min-vh-100 bg-light">
       <Header />
-
       <Container className="py-4">
         {/* Welcome Banner */}
         <Row className="mb-4">
@@ -166,6 +166,7 @@ const Home = () => {
           </Row>
         )}
       </Container>
+      <Footer />
     </div>
   );
 };
