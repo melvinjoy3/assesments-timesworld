@@ -16,7 +16,6 @@ const CountryTabs = () => {
       setShowOffcanvas(false);
     }
   };
-  console.log("activeTab", activeTab);
 
   return (
     <Container fluid className="p-5">

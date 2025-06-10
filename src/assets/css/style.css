@@ -81,3 +81,9 @@
   padding: 10px;
   box-shadow: 5px 6px var(--shdow-color);
 }
+
+.home-image {
+  width: 64px;
+  height: 40px;
+  object-fit: cover;
+}

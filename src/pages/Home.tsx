@@ -76,8 +76,6 @@ const Home = () => {
     }, 100);
   };
 
-  console.log("activeTab->", activeTab);
-
   const Cell = ({ columnIndex, rowIndex, style }: any) => {
     const index = rowIndex * columnCount + columnIndex;
     if (index >= filteredItems.length) return null;
@@ -89,8 +87,7 @@ const Home = () => {
           <img
             src={item.flag}
             alt={item.name}
-            className="me-3 border border-secondary"
-            style={{ width: "64px", height: "40px", objectFit: "cover" }}
+            className="me-3 border border-secondary home-image"
           />
           <div>
             <h2 className="h5 fw-semibold mb-1">{item.name}</h2>
@@ -110,9 +107,9 @@ const Home = () => {
         <Row className="mb-4">
           <Col xs={12} className="text-center d-flex justify-content-center">
             <div className="d-flex align-items-center justify-content-center">
-              <hr className="flex-grow-1 mx-4" style={{ maxWidth: "300px" }} />
+              <hr className="flex-grow-1 mx-4" />
               <h1 className="h2 fw-bold text-dark mb-0">WELCOME</h1>
-              <hr className="flex-grow-1 mx-4" style={{ maxWidth: "300px" }} />
+              <hr className="flex-grow-1 mx-4" />
             </div>
           </Col>
         </Row>

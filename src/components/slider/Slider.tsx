@@ -97,7 +97,7 @@ const ImageSlider = () => {
 
       {/* Navigation Controls */}
       <div className="d-flex justify-content-center align-items-center mt-3 slider-navigation">
-        <ArrowLeft onClick={goToPrev} style={{ cursor: "pointer" }} size={20} />
+        <ArrowLeft onClick={goToPrev} className="sider-pointer" size={20} />
         {Array.from({ length: totalDots }, (_, dotIndex) => (
           <span
             key={dotIndex}
@@ -108,12 +108,7 @@ const ImageSlider = () => {
             }}
           ></span>
         ))}
-        <ArrowRight
-          onClick={goToNext}
-          className="pointer"
-          // style={{ cursor: "pointer" }}
-          size={20}
-        />
+        <ArrowRight onClick={goToNext} className="sider-pointer" size={20} />
       </div>
     </div>
   );

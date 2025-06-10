@@ -28,3 +28,7 @@
   display: inline-block;
   cursor: pointer;
 }
+
+.sider-pointer {
+  cursor: pointer;
+}
