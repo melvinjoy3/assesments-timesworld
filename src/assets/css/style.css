@@ -59,3 +59,9 @@
 .carousel-indicators .active {
   background-color: #000; /* Active dot is black */
 }
+
+.country-card {
+  border: 1px solid;
+  padding: 10px;
+  box-shadow: 5px 10px #888888;
+}

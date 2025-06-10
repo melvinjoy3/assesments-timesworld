@@ -1,42 +1,56 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import Header from "../components/header/Header";
 import { FixedSizeGrid as Grid } from "react-window";
 import { Container, Row, Col, Button, Spinner } from "react-bootstrap";
 import "../assets/css/style.css";
-import { getCountries } from "../API/Response";
 import ImageSlider from "../components/slider/Slider";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { fetchCountries, loadMore } from "../store/countriesSlice";
 
 const ITEMS_PER_PAGE = 12;
 const ROW_HEIGHT = 100;
 
 const Home = () => {
-  const [countries, setCountries] = useState<any[]>([]);
-  const [displayedCountries, setDisplayedCountries] = useState<any[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [gridWidth, setGridWidth] = useState(1200);
-  const [columnWidth, setColumnWidth] = useState(600);
-  const [columnCount, setColumnCount] = useState(2);
+  const dispatch = useAppDispatch();
+  const { items, displayedItems, currentPage, loading, error } = useAppSelector(
+    (state) => state.countries
+  );
+  const activeTab = useAppSelector((state) => state.ui.activeTab);
+  const [gridWidth, setGridWidth] = React.useState(1200);
+  const [columnWidth, setColumnWidth] = React.useState(600);
+  const [columnCount, setColumnCount] = React.useState(2);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // Add filtered items based on activeTab
+  const filteredItems = React.useMemo(() => {
+    if (activeTab === "All") {
+      return displayedItems;
+    }
+    // First filter the items by region
+    const regionFilteredItems = items.filter(
+      (item) => item.region.toLowerCase() === activeTab.toLowerCase()
+    );
+    // Then take only the items up to the current page
+    return regionFilteredItems.slice(0, currentPage * ITEMS_PER_PAGE);
+  }, [items, displayedItems, activeTab, currentPage]);
+
   useEffect(() => {
-    getCountries1();
+    dispatch(fetchCountries());
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [dispatch]);
 
   const handleResize = () => {
     if (containerRef.current) {
       const containerWidth = containerRef.current.offsetWidth;
       if (containerWidth < 768) {
         setColumnCount(1);
-        setColumnWidth(containerWidth - 32); // Account for padding
+        setColumnWidth(containerWidth - 32);
         setGridWidth(containerWidth);
       } else if (containerWidth < 1200) {
         setColumnCount(2);
-        setColumnWidth((containerWidth - 64) / 2); // Account for padding and gap
+        setColumnWidth((containerWidth - 64) / 2);
         setGridWidth(containerWidth);
       } else {
         setColumnCount(2);
@@ -46,37 +60,12 @@ const Home = () => {
     }
   };
 
-  const getCountries1 = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await getCountries();
-      setCountries(data);
-      setDisplayedCountries(data.slice(0, ITEMS_PER_PAGE));
-    } catch (error) {
-      console.error("Error fetching countries:", error);
-      setError("Failed to load countries. Please try again later.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const loadMore = () => {
+  const handleLoadMore = () => {
     if (loading) return;
-
-    setLoading(true);
-    const nextPage = currentPage + 1;
-    const startIndex = (nextPage - 1) * ITEMS_PER_PAGE;
-    const endIndex = nextPage * ITEMS_PER_PAGE;
-
-    setDisplayedCountries((prev) => [
-      ...prev,
-      ...countries.slice(startIndex, endIndex),
-    ]);
-    setCurrentPage(nextPage);
-    setLoading(false);
+    dispatch(loadMore());
 
     setTimeout(() => {
+      const startIndex = currentPage * ITEMS_PER_PAGE;
       const newContent = document.querySelector(
         `[data-row-index="${Math.floor(startIndex / columnCount)}"]`
       );
@@ -86,14 +75,16 @@ const Home = () => {
     }, 100);
   };
 
+  console.log("activeTab->", activeTab);
+
   const Cell = ({ columnIndex, rowIndex, style }: any) => {
     const index = rowIndex * columnCount + columnIndex;
-    if (index >= displayedCountries.length) return null;
-    const item = displayedCountries[index];
+    if (index >= filteredItems.length) return null;
+    const item = filteredItems[index];
 
     return (
       <div style={style} className="p-2" data-row-index={rowIndex}>
-        <div className="d-flex align-items-center border border-secondary p-3 bg-white h-100">
+        <div className="country-card d-flex align-items-center border border-secondary p-3 bg-white h-100">
           <img
             src={item.flag}
             alt={item.name}
@@ -112,6 +103,7 @@ const Home = () => {
   return (
     <div className="min-vh-100 bg-light">
       <Header />
+
       <Container className="py-4">
         {/* Welcome Banner */}
         <Row className="justify-content-center mb-4">
@@ -123,6 +115,7 @@ const Home = () => {
             </div>
           </Col>
         </Row>
+
         <ImageSlider />
 
         {/* Error Message */}
@@ -140,7 +133,7 @@ const Home = () => {
                 columnCount={columnCount}
                 columnWidth={columnWidth}
                 height={600}
-                rowCount={Math.ceil(displayedCountries.length / columnCount)}
+                rowCount={Math.ceil(filteredItems.length / columnCount)}
                 rowHeight={ROW_HEIGHT}
                 width={gridWidth}
               >
@@ -151,12 +144,12 @@ const Home = () => {
         </Row>
 
         {/* Load More Button */}
-        {displayedCountries.length < countries.length && (
+        {displayedItems.length < items.length && (
           <Row className="mt-4">
             <Col className="text-center">
               <Button
                 variant="primary"
-                onClick={loadMore}
+                onClick={handleLoadMore}
                 disabled={loading}
                 className="px-4 py-2"
               >

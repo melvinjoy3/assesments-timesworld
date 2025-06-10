@@ -1,18 +1,22 @@
 import React, { useState } from "react";
 import { Container, Nav, Row, Col, Navbar, Offcanvas } from "react-bootstrap";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { setActiveTab } from "../../store/uiSlice";
 
 const CountryTabs = () => {
-  const [activeTab, setActiveTab] = useState("All");
+  const dispatch = useAppDispatch();
+  const activeTab = useAppSelector((state) => state.ui.activeTab);
   const [showOffcanvas, setShowOffcanvas] = useState(false);
 
   const tabs = ["All", "Asia", "Europe"];
 
   const handleSelect = (selectedKey: string | null) => {
     if (selectedKey) {
-      setActiveTab(selectedKey);
+      dispatch(setActiveTab(selectedKey));
       setShowOffcanvas(false);
     }
   };
+  console.log("activeTab", activeTab);
 
   return (
     <Container fluid className="p-5">

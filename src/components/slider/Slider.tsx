@@ -1,17 +1,11 @@
 import React, { useState } from "react";
 import { Carousel } from "react-bootstrap";
 import { ArrowLeft, ArrowRight } from "react-bootstrap-icons";
-import "../../assets/css/style.css"; // Optional for custom styling
+import { useAppSelector } from "../../store/hooks";
+import "../../assets/css/style.css";
 
 const ImageSlider = () => {
-  const images = [
-    "https://via.placeholder.com/600x300?text=Slide+1",
-    "https://via.placeholder.com/600x300?text=Slide+2",
-    "https://via.placeholder.com/600x300?text=Slide+3",
-    "https://via.placeholder.com/600x300?text=Slide+4",
-    "https://via.placeholder.com/600x300?text=Slide+5",
-  ];
-
+  const { items } = useAppSelector((state) => state.countries);
   const [index, setIndex] = useState(0);
 
   const handleSelect = (selectedIndex: number) => {
@@ -19,18 +13,17 @@ const ImageSlider = () => {
   };
 
   const goToPrev = () => {
-    setIndex(index === 0 ? images.length - 1 : index - 1);
+    setIndex(index === 0 ? items.length - 1 : index - 1);
   };
 
   const goToNext = () => {
-    setIndex(index === images.length - 1 ? 0 : index + 1);
+    setIndex(index === items.length - 1 ? 0 : index + 1);
   };
 
+  if (!items.length) return null;
+
   return (
-    <div
-      className="position-relative"
-      style={{ maxWidth: "700px", margin: "auto" }}
-    >
+    <div className="position-relative w-100 px-3 mb-4">
       <Carousel
         activeIndex={index}
         onSelect={handleSelect}
@@ -38,23 +31,32 @@ const ImageSlider = () => {
         indicators={false}
         interval={null}
       >
-        {images.map((img, idx) => (
+        {items.map((country, idx) => (
           <Carousel.Item key={idx}>
             <div
               className="d-flex justify-content-center align-items-center"
               style={{ height: "300px", backgroundColor: "#f4f4f4" }}
             >
-              <img
-                src={img}
-                alt={`Slide ${idx + 1}`}
-                style={{ maxWidth: "100%", maxHeight: "100%" }}
-              />
+              <div className="text-center">
+                <img
+                  src={country.flag}
+                  alt={country.name}
+                  style={{
+                    maxWidth: "100%",
+                    maxHeight: "200px",
+                    objectFit: "contain",
+                    marginBottom: "1rem",
+                  }}
+                />
+                <h3 className="h5 fw-bold">{country.name}</h3>
+                <p className="text-muted">{country.region}</p>
+              </div>
             </div>
           </Carousel.Item>
         ))}
       </Carousel>
 
-      {/* Persistent Arrows + Dots container (NOT inside Carousel.Item) */}
+      {/* Navigation Controls */}
       <div
         className="d-flex justify-content-center align-items-center"
         style={{
@@ -69,7 +71,7 @@ const ImageSlider = () => {
         }}
       >
         <ArrowLeft onClick={goToPrev} style={{ cursor: "pointer" }} size={20} />
-        {images.map((_, idx) => (
+        {items.map((_, idx) => (
           <span
             key={idx}
             onClick={() => setIndex(idx)}
